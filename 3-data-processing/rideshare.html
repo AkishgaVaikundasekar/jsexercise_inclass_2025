@@ -126,8 +126,25 @@ console.log("---------------------")
 
 
 
-        console.log("---------------------")
-        console.log("PART 2...")
+console.log("---------------------")
+console.log("PART 2...")
+
+// A. Driver's name in span
+document.getElementById("display-driver").textContent = trip.driver.first_name
+
+// B. Vehicle description
+const vehicle = trip.vehicle
+document.getElementById("display-vehicle").textContent =
+    `${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})`
+
+// C. Passenger names as list items
+const ol = document.getElementById("display-passengers")
+trip.stops.forEach(stop => {
+    const li = document.createElement("li")
+    li.textContent = stop.passenger
+    ol.appendChild(li)
+})
+
 
 
 

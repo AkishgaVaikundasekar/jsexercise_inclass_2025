@@ -45,6 +45,16 @@
         The interface should include a button, that when clicked should perform the simulation and
         and display the resulting number of years and actual ending balance on the page.
     </p>
+    <h3>Try It Yourself</h3>
+<p>
+    <label>Initial Balance: $<input type="number" id="input-initial" value="150000"></label><br>
+    <label>Target Balance: $<input type="number" id="input-target" value="1000000"></label><br>
+    <label>Mean Return (decimal): <input type="number" id="input-mean" step="0.01" value="0.08"></label><br>
+    <label>Standard Deviation (decimal): <input type="number" id="input-stddev" step="0.01" value="0.15"></label><br><br>
+    <button id="simulate-btn">Run Simulation</button>
+</p>
+
+<p id="simulation-result"><strong>Result:</strong></p>
 
 
 
@@ -90,11 +100,35 @@
         console.log(year, balance)
 
 
-
-
-
         console.log("---------------------")
         console.log("PART 3...")
+        document.getElementById("simulate-btn").addEventListener("click", function () {
+    const initial = parseFloat(document.getElementById("input-initial").value);
+    const target = parseFloat(document.getElementById("input-target").value);
+    const mean = parseFloat(document.getElementById("input-mean").value);
+    const stddev = parseFloat(document.getElementById("input-stddev").value);
+
+    let balance = initial;
+    let years = 0;
+    const rateGenerator = d3.randomNormal(mean, stddev);
+    const yearlyRates = [];
+
+    while (balance < target) {
+        const rate = rateGenerator();
+        balance *= (1 + rate);
+        yearlyRates.push(rate);
+        years++;
+    }
+
+    document.getElementById("simulation-result").innerHTML =
+        `<strong>Result:</strong> It took <strong>${years}</strong> years to reach <strong>${formatUSD(balance)}</strong>.`;
+
+    console.log("User Simulation Complete:");
+    console.log("Years:", years);
+    console.log("Final Balance:", formatUSD(balance));
+    console.log("Yearly Return Rates:", yearlyRates.map(r => (r * 100).toFixed(2) + "%"));
+});
+
 
 
 
