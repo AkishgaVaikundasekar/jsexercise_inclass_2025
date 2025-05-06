@@ -93,17 +93,35 @@
 
             console.log("---------------------")
             console.log("PART 1...")
+            // D. Number of days
+    console.log("Number of days:", data.length);
 
+// E. Earliest date (last item in CSV)
+let earliest = data[data.length - 1];
+let earliestDate = earliest.timestamp;
+let earliestPrice = parseFloat(earliest.adjusted_close);
+console.log("Earliest:", earliestDate, formatUSD(earliestPrice));
 
+// F. Latest date (first item in CSV)
+let latest = data[0];
+let latestDate = latest.timestamp;
+let latestPrice = parseFloat(latest.adjusted_close);
+console.log("Latest:", latestDate, formatUSD(latestPrice));
 
+// G. Percent change
+let percentChange = (latestPrice - earliestPrice) / earliestPrice;
+console.log("Percent Change:", formatPct(percentChange));
 
 
             console.log("---------------------")
             console.log("PART 2...")
-
-
-
-
+                // Update DOM
+    document.getElementById("display-earliest").innerText =
+        `${earliestDate} (${formatUSD(earliestPrice)})`;
+    document.getElementById("display-latest").innerText =
+        `${latestDate} (${formatUSD(latestPrice)})`;
+    document.getElementById("display-pct-change").innerText =
+        formatPct(percentChange);
 
 
             }).catch(function(error) {

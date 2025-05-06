@@ -63,8 +63,7 @@
     <p>Groceries:</p>
     <ul id="display-groceries">
     </ul>
-
-
+    <ul id="display-products"></ul>
 
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script type="text/javascript">
@@ -81,28 +80,51 @@
 
             console.log("---------------------")
             console.log("PART 1...")
+            console.log("A) Data fetched.");
 
+    console.log("B) Number of products:", products.length);
 
+    console.log("C) Products list:");
+    products.forEach(p => {
+      const price = parseFloat(p.price).toFixed(2);
+      console.log(`${p.name}: $${price}`);
+    });
 
+    console.log("D) Unique departments:");
+    const departments = [];
+    products.forEach(p => {
+      if (p.department && !departments.includes(p.department)) {
+        departments.push(p.department);
+      }
+    });
 
+    console.log("E) Number of departments:", departments.length);
 
+    console.log("F) Departments (uppercase):");
+    departments.forEach(dep => {
+      console.log(dep.toUpperCase());
+    });
+
+    console.log("G) Beverage products:");
+    const beverages = products.filter(p => p.department === "beverages");
+
+    console.log("H) Number of beverage products:", beverages.length);
+
+    console.log("I) Average beverage price:");
+    const avgBeveragePrice = d3.mean(beverages.map(p => parseFloat(p.price))).toFixed(2);
+    console.log(`$${avgBeveragePrice}`);
 
             console.log("---------------------")
             console.log("PART 2...")
-
-
-
-
-
-
-
-
-
-
-            }).catch(function(error) {
-                console.error("ERROR:", error)
-        })
-
+            const ul = document.getElementById("display-products");
+    products.forEach(p => {
+      const li = document.createElement("li");
+      const price = parseFloat(p.price).toFixed(2);
+      li.textContent = `${p.name} - $${price}`;
+      ul.appendChild(li);
+    });
+  })
+  .catch(error => console.error("Error fetching or parsing data:", error));
     </script>
 </body>
 </html>

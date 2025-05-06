@@ -89,15 +89,78 @@
 
                 console.log("---------------------")
                 console.log("PART 1...")
+                // A. Fetch is already done
+let periods = data.properties.periods
+
+// B. Date generated
+let dateGenerated = data.properties.updated.split("T")[0]
+console.log("Date generated:", dateGenerated)
+
+// C. Number of periods
+console.log("Total periods:", periods.length)
+
+// D. Filter daytime periods
+let daytimePeriods = periods.filter(p => p.isDaytime)
+console.log("Daytime periods:", daytimePeriods)
+
+// E. Number of daytime periods
+console.log("Number of daytime periods:", daytimePeriods.length)
+
+// F. Human-readable forecast for each
+daytimePeriods.forEach(period => {
+    console.log(`${period.name}: ${period.temperature}${degreeSymbol}${period.temperatureUnit} - ${period.shortForecast}`)
+})
 
 
 
 
                 console.log("---------------------")
                 console.log("PART 2...")
+                // A. Show date
+document.getElementById("display-date").textContent = dateGenerated
 
+// B. Build forecast table
+const table = document.getElementById("display-forecast")
 
+// Add table header
+const headerRow = document.createElement("tr")
+;["Period", "Temperature", "Forecast", "Icon"].forEach(h => {
+    const th = document.createElement("th")
+    th.textContent = h
+    headerRow.appendChild(th)
+})
+table.appendChild(headerRow)
 
+// Add rows for each daytime period
+daytimePeriods.forEach(period => {
+    const row = document.createElement("tr")
+
+    // Period Name
+    const nameCell = document.createElement("td")
+    nameCell.textContent = period.name
+    row.appendChild(nameCell)
+
+    // Temperature
+    const tempCell = document.createElement("td")
+    tempCell.textContent = `${period.temperature}${degreeSymbol}${period.temperatureUnit}`
+    row.appendChild(tempCell)
+
+    // Forecast Text
+    const forecastCell = document.createElement("td")
+    forecastCell.textContent = period.shortForecast || period.detailedForecast
+    row.appendChild(forecastCell)
+
+    // Icon
+    const iconCell = document.createElement("td")
+    const iconImg = document.createElement("img")
+    iconImg.src = period.icon
+    iconImg.alt = period.shortForecast
+    iconImg.width = 40
+    iconCell.appendChild(iconImg)
+    row.appendChild(iconCell)
+
+    table.appendChild(row)
+})
 
             })
             .catch(err => console.log(err))
