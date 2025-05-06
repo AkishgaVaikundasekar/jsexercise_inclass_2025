@@ -91,13 +91,31 @@
 
             console.log("---------------------")
             console.log("PART 1...")
+            var markets = data.markets
+        console.log("Total Markets:", markets.length)
 
+        var equityMarkets = markets.filter(m => m.market_type === "Equity")
+        console.log("Equity Markets:", equityMarkets.length)
 
+        equityMarkets.forEach(m => {
+            console.log("Market Type:", m.market_type, "| Region:", m.region)
+        })
 
-
+        var usMarket = equityMarkets.find(m => m.region === "United States")
+        console.log("US Market Info:", usMarket)
 
             console.log("---------------------")
             console.log("PART 2...")
+            if (usMarket) {
+            d3.select("#display-region").text(usMarket.region)
+            d3.select("#display-type").text(usMarket.market_type)
+            d3.select("#display-exchanges").text(usMarket.primary_exchanges)
+            d3.select("#display-open").text(usMarket.local_open)
+            d3.select("#display-close").text(usMarket.local_close)
+            d3.select("#display-status").text(usMarket.current_status.toUpperCase())
+        } else {
+            console.warn("No US Equity Market found.")
+        }
 
 
 
